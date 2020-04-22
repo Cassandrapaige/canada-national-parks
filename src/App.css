@@ -20,6 +20,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   font-family: 'Barlow', sans-serif;
+  overflow: hidden;
 }
 
 .container .content {
@@ -130,6 +131,7 @@ body {
   padding: 30px;
   font-size: 50px;
   color: #fff;
+  outline: none;
 }
 
 .buttons .prev {
@@ -146,13 +148,52 @@ body {
 }
 
 .expand-content {
-  padding: 30px;
-  box-shadow: 0px 6px 6px rgba(19, 19, 19, .5);
+  box-shadow: 0px 6px 6px rgba(19, 19, 19, .9);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: left;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.expand-content-inner {
+  max-width: 500px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  background: #191919;
+  padding: 30px 20px;
+  color: #fff;
+}
+.expand-content img {
+  width: 100%;
 }
 
 .expand-content h3 {
-  font-size: 30px;
+  font-size: 40px;
+  text-transform: uppercase;
+  line-height: 100%;
+  position: relative;
+  padding-bottom: 20px;
 }
+
+.expand-content h3::before {
+  position: absolute;
+  content: '';
+  width: 50px;
+  height: 5px;
+  background: #fff;
+  bottom: 0;
+}
+
 
 .expand-content p {
   font-size: 18px;

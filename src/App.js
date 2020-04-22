@@ -6,7 +6,7 @@ import '../src/App.css'
 
 const App = () => {
   const [data, setData] = useState(COUNTRIES);
-  const [num, setNum] = useState(1)
+  const [num, setNum] = useState(0)
   const [isActive, setIsActive] = useState(false)
   const [card, setCard] = useState('')
   const [x, setX] = useState('50px')
@@ -20,6 +20,12 @@ const App = () => {
     type === 'minus' ? setNum(prevNum => prevNum - 1)
     : setNum(prevNum => prevNum + 1);
     setToggle(false)
+
+    if(num === data.length -1 && type === 'plus') {
+      setNum(0)
+    } else if(num === 0 && type === 'minus') {
+      setNum(data.length -1)
+    }
   }
 
   const showImgContent = (type, event) => {
@@ -34,10 +40,8 @@ const App = () => {
     setIndex(index);
     setImage(event.target.src)
     setTitle(event.target.alt)
-    setX('100%')
-    setY('100%')
+    setIsActive(false)
   })
-
 
   const fadeIn = useSpring({
     from: {
@@ -55,25 +59,16 @@ const App = () => {
   const props = useSpring({
     config: config.gentle,
     from: {
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      background: 'rgba(19, 19, 19, .99)',
-      width: '0px',
-      height: '100%',
+      background: 'rgba(19, 19, 19, .8)',
       display: 'none',
-      borderRadius: '50%',
       zIndex: '20',
       opacity: 0
     },
     to: {
-      width: toggle ? '500px' : '500px',
-      borderRadius: '0%',
-      display: toggle ? 'block' : 'none',
+      display: toggle ? 'flex' : 'none',
       opacity: 1
     },
-    delay: 300
+    delay: 100
   })
 
   return ( 
@@ -110,18 +105,20 @@ const App = () => {
       <div className="buttons">
         <button 
           className = 'next' onClick = {() => {handleType('plus')}}>
-          {data[num + 1].province}
+          {data[num === data.length -1 ? 0 : num +1].province}
         </button>
         <button 
           className = 'prev' onClick = {() => {handleType('minus')}}>
-          {data[num - 1].province}
+          {data[num === 0 ? data.length -1 : num -1].province}
         </button>
       </div>
     </div>
     <animated.div style= {props} className="expand-content">
-      <animated.h3 style = {fadeIn}>{title}</animated.h3>
-      <animated.p style = {fadeIn}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore, est, recusandae necessitatibus, itaque quidem pariatur laboriosam quasi amet neque laudantium saepe incidunt? Deleniti dignissimos quis inventore deserunt obcaecati iure ullam, voluptas asperiores dolorem aliquid! Similique corrupti consequatur maxime itaque dicta voluptate vero praesentium laudantium dolor? Voluptatum esse porro magnam omnis?</animated.p>
-        <animated.img src={image} alt={title} style = {fadeIn} />
+      <animated.div styles= {fadeIn} className="expand-content-inner">
+        <h3>{title}</h3>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore, est, recusandae necessitatibus, itaque quidem pariatur laboriosam quasi amet neque laudantium saepe incidunt? Deleniti dignissimos quis inventore deserunt obcaecati iure ullam, voluptas asperiores dolorem aliquid! Similique corrupti consequatur maxime itaque dicta voluptate vero praesentium laudantium dolor? Voluptatum esse porro magnam omnis?</p>
+        <img src={image} alt={title} style = {fadeIn} />
+      </animated.div>
     </animated.div>
 </>
   )
